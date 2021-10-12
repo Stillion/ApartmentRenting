@@ -1,0 +1,552 @@
+{
+	"compiler": {
+		"version": "0.8.4+commit.c7e474f2"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "appartments",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "street",
+						"type": "string"
+					},
+					{
+						"internalType": "uint16",
+						"name": "streetNumber",
+						"type": "uint16"
+					},
+					{
+						"internalType": "uint16",
+						"name": "appartmentNumber",
+						"type": "uint16"
+					},
+					{
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_appartmentId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint16",
+						"name": "_bidAmount",
+						"type": "uint16"
+					}
+				],
+				"name": "bid",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_appartmentId",
+						"type": "uint256"
+					}
+				],
+				"name": "cancelBidding",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_appartmentId",
+						"type": "uint256"
+					}
+				],
+				"name": "closeBidding",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_street",
+						"type": "string"
+					},
+					{
+						"internalType": "uint16",
+						"name": "_streetNumber",
+						"type": "uint16"
+					},
+					{
+						"internalType": "uint16",
+						"name": "_appartmentNumber",
+						"type": "uint16"
+					}
+				],
+				"name": "createAppartment",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getAllAppartments",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "id",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "street",
+								"type": "string"
+							},
+							{
+								"internalType": "uint16",
+								"name": "streetNumber",
+								"type": "uint16"
+							},
+							{
+								"internalType": "uint16",
+								"name": "appartmentNumber",
+								"type": "uint16"
+							},
+							{
+								"internalType": "address",
+								"name": "owner",
+								"type": "address"
+							}
+						],
+						"internalType": "struct AppartmentFactory.Appartment[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_owner",
+						"type": "address"
+					}
+				],
+				"name": "getAppartmentsByOwner",
+				"outputs": [
+					{
+						"internalType": "uint256[]",
+						"name": "",
+						"type": "uint256[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_renter",
+						"type": "address"
+					}
+				],
+				"name": "getAppartmentsByRenter",
+				"outputs": [
+					{
+						"internalType": "uint256[]",
+						"name": "",
+						"type": "uint256[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getAvailableAppartments",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "id",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "street",
+								"type": "string"
+							},
+							{
+								"internalType": "uint16",
+								"name": "streetNumber",
+								"type": "uint16"
+							},
+							{
+								"internalType": "uint16",
+								"name": "appartmentNumber",
+								"type": "uint16"
+							},
+							{
+								"internalType": "address",
+								"name": "owner",
+								"type": "address"
+							}
+						],
+						"internalType": "struct AppartmentFactory.Appartment[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_owner",
+						"type": "address"
+					}
+				],
+				"name": "getCurrentRentersForOwner",
+				"outputs": [
+					{
+						"internalType": "address[]",
+						"name": "",
+						"type": "address[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_appartmentId",
+						"type": "uint256"
+					}
+				],
+				"name": "getHighestBidder",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "renter",
+								"type": "address"
+							},
+							{
+								"internalType": "uint16",
+								"name": "bidAmount",
+								"type": "uint16"
+							}
+						],
+						"internalType": "struct AppartmentFactory.RenterBidding",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_appartmentId",
+						"type": "uint256"
+					}
+				],
+				"name": "getRentingHistory",
+				"outputs": [
+					{
+						"internalType": "address[]",
+						"name": "",
+						"type": "address[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_renter",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_owner",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_appartmentId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_rentAmount",
+						"type": "uint256"
+					}
+				],
+				"name": "payRent",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "resetRenterBidding",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "renter",
+						"type": "address"
+					},
+					{
+						"internalType": "uint16",
+						"name": "bidAmount",
+						"type": "uint16"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_appartmentId",
+						"type": "uint256"
+					}
+				],
+				"name": "stopRentingAppartment",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"author": "Milos Dograjic",
+			"kind": "dev",
+			"methods": {
+				"bid(uint256,uint16)": {
+					"details": "Think about addapting for bidding history list",
+					"params": {
+						"_appartmentId": "ID of the appartment for bidding",
+						"_bidAmount": "Bidding amount"
+					}
+				},
+				"cancelBidding(uint256)": {
+					"details": "Think about addapting for bidding history list",
+					"params": {
+						"_appartmentId": "ID of the appartment for bidding"
+					}
+				},
+				"closeBidding(uint256)": {
+					"details": "For now no further dev needed, think about impoving the mappings",
+					"params": {
+						"_appartmentId": "ID of the appartment for bidding"
+					}
+				},
+				"createAppartment(string,uint16,uint16)": {
+					"details": "For now no further dev needed",
+					"params": {
+						"_appartmentNumber": "appartment number",
+						"_street": "street name",
+						"_streetNumber": "street number"
+					}
+				},
+				"getAllAppartments()": {
+					"details": "For now no further dev needed",
+					"returns": {
+						"_0": "appartments which is the list of all appartments in the contract"
+					}
+				},
+				"getAppartmentsByOwner(address)": {
+					"details": "For now no further dev needed",
+					"params": {
+						"_owner": "Address of the owner of the appartments"
+					},
+					"returns": {
+						"_0": "result - list of all appartments owned by the same person"
+					}
+				},
+				"getAppartmentsByRenter(address)": {
+					"details": "For now no further dev needed",
+					"params": {
+						"_renter": "Address of the renter of the appartments"
+					},
+					"returns": {
+						"_0": "result - list of all appartments rented by the same person"
+					}
+				},
+				"getAvailableAppartments()": {
+					"details": "For now no further dev needed",
+					"returns": {
+						"_0": "availableAppartments - list of all appartments available for rent"
+					}
+				},
+				"getCurrentRentersForOwner(address)": {
+					"details": "For now no further dev needed",
+					"params": {
+						"_owner": "ID of the appartment"
+					}
+				},
+				"getHighestBidder(uint256)": {
+					"details": "For now no further dev needed",
+					"params": {
+						"_appartmentId": "ID of the appartment"
+					},
+					"returns": {
+						"_0": "RenterBiding[] - list of all renters and bidding amounts for the appartment"
+					}
+				},
+				"getRentingHistory(uint256)": {
+					"details": "For now no further dev needed",
+					"params": {
+						"_appartmentId": "ID of the appartment"
+					},
+					"returns": {
+						"_0": "address[] - list of all renters that were renting the appartment"
+					}
+				},
+				"payRent(address,address,uint256,uint256)": {
+					"details": "Function must be implemented. Check if all the input parameters are needed",
+					"params": {
+						"_appartmentId": "ID of the appartment for which the rent is being payed",
+						"_owner": "Owner's address to which Ether will be transfered",
+						"_rentAmount": "Amount of Ether that needs to be transfered",
+						"_renter": "Renter's address from which Ether will be transfered"
+					}
+				},
+				"stopRentingAppartment(uint256)": {
+					"details": "For now no further dev needed, think about impoving the mappings",
+					"params": {
+						"_appartmentId": "ID of the appartment"
+					}
+				}
+			},
+			"title": "A contract for appartnent renting",
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"bid(uint256,uint16)": {
+					"notice": "This function allows potential renters to bid for the appartment"
+				},
+				"cancelBidding(uint256)": {
+					"notice": "This function cancels the potential renter's bid for the appartment "
+				},
+				"closeBidding(uint256)": {
+					"notice": "This function closes the bidding period and rents the appartment to the highest bidder"
+				},
+				"createAppartment(string,uint16,uint16)": {
+					"notice": "This function creates a new appartment that will be available for rent"
+				},
+				"getAllAppartments()": {
+					"notice": "This function returns the list of all appartments in the contract"
+				},
+				"getAppartmentsByOwner(address)": {
+					"notice": "This function returns the list of all appartments that are owned by the same person"
+				},
+				"getAppartmentsByRenter(address)": {
+					"notice": "This function returns the list of all appartments that are rented by the same person"
+				},
+				"getAvailableAppartments()": {
+					"notice": "This function returns all appartments that are available for renting"
+				},
+				"getCurrentRentersForOwner(address)": {
+					"notice": "This function returns all the renters that are renting appartments from the same person "
+				},
+				"getHighestBidder(uint256)": {
+					"notice": "This function returns the bidding history for one appartment"
+				},
+				"getRentingHistory(uint256)": {
+					"notice": "This function returns the renting history for one appartment"
+				},
+				"payRent(address,address,uint256,uint256)": {
+					"notice": "This function transfers Ether from renter to owner of the appartment"
+				},
+				"stopRentingAppartment(uint256)": {
+					"notice": "This function cancels the renting of the appartment "
+				}
+			},
+			"notice": "For know this contract simulates the bidding and renting, payment needs to be implemented",
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"AppartmentFactory.sol": "AppartmentFactory"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"AppartmentFactory.sol": {
+			"keccak256": "0x27ed1598d1c6b1116914ec611d0587814f52b450544027e619a40a49714ae904",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://332d4e431535eda3c9ba851affb7d50b27db8c185d881bc9ad88cd09b5e182c7",
+				"dweb:/ipfs/QmWoVYNKRUU4zPmwZ93jipt1upPPSvMXwwu7VvTpdznw5j"
+			]
+		},
+		"utils/safemath.sol": {
+			"keccak256": "0xfb1f422af49c2a8db4e31cca4601a522177f09525782c772d0da004f42352e42",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://439f9acf06cc1b0b80645ad6868f15e906451bbeeeb722dd672d607a3b2a8d66",
+				"dweb:/ipfs/QmQMmXbU41qg7VADiQgLKtQMbiB9yKph31adm3crZYtqLa"
+			]
+		}
+	},
+	"version": 1
+}

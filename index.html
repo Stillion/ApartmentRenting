@@ -1,0 +1,604 @@
+<!-- Napraviti adekvatne strane/stranu za contract kad bude gotov -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Apartment Renting</title>
+
+		<link rel="stylesheet" type="text/css" href="main.css">
+		
+		<script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+		
+	</head>
+
+	<body>
+
+		<div class="container">	
+			<h1>Apartment Renting</h1>
+
+			<h2>Create Apartment</h1>
+
+			<label for="streetName" class="col-lg-2 control-label">Street Name</label>
+			<input id="streetName" placeholder="Street Name" type="text">
+
+			<label for="streetNumber" class="col-lg-2 control-label">Street Number</label>
+			<input id="streetNumber" placeholder="Street Number" type="number">
+
+			<label for="apartmentNumber" class="col-lg-2 control-label">Apartment Number</label>
+			<input id="apartmentNumber" placeholder="Apartment Number" type="number">
+
+			<button id="createApartment">Create Apartment</button>
+
+			<hr>
+
+			<h2>Apartment Details</h1>
+
+			<label for="apartment" class="col-lg-2 control-label">All Apartments</label>	
+			<textarea readonly id="apartment"></textarea>
+	
+			<label for="ownerApartments" class="col-lg-2 control-label">Owner's Apartments</label>	
+			<textarea readonly id="ownerApartments"></textarea>
+			<button id="getOwnerApartments">Get Owner's Apartments</button>
+
+			<label for="availableApartments" class="col-lg-2 control-label">Available Apartments</label>
+			<textarea readonly id="availableApartments" ></textarea>
+			<button id="getAvailableApartments">Get Available Apartments</button>
+			
+			<label for="getRenterApartments" class="col-lg-2 control-label">Renter's Apartments</label>
+			<textarea readonly id="renterApartments"></textarea>
+			<button id="getRenterApartments">Get Renter's Apartments</button>
+			
+			<label for="rentersForOwner" class="col-lg-2 control-label">Current Renters For Owner</label>
+			<textarea readonly id="rentersForOwner"></textarea>
+			<button id="getCurrentRentersForOwner">Get Current Renters For Owner</button>
+			
+			<hr>
+
+			<h2>Bidding/Renting</h2>
+
+			<label for="apartmentId" class="col-lg-2 control-label">Apartment ID</label>
+			<input id="apartmentId" placeholder="Apartment ID" type="number">
+
+			<label for="bidAmount" class="col-lg-2 control-label">Bid Amount</label>
+			<input id="bidAmount" placeholder="Bid Amount" type="number">
+
+			<hr>
+
+			<label for="highestBidder" class="col-lg-2 control-label">Highest Bidder</label>
+			<textarea readonly id="highestBidder"></textarea>
+			<button id="getHighestBidder">Get Highest Bidder</button>
+			
+			<button id="bid" class="left">Bid</button>
+			<button id="cancelBidding" class="">Cancel Bidding</button>
+			<button id="closeBidding" class="left">Close Bidding</button>
+			<button id="stopRenting" class="left">Stop Renting</button>
+
+			<!-- <button id="getRentingHistory">Get Renting History</button>
+
+			<textarea readonly id="rentingHistory" style="width: 200px; height: 100px;"></textarea> -->
+
+		</div>
+	</body>
+	<script>
+		//izmeniti ABI za contract, kao i adrese
+
+		if (typeof web3 !== 'undefined') {
+			web3 = new Web3(web3.currentProvider);
+		} else {
+			// set the provider you want from Web3.providers
+			web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+		}
+		web3.eth.defaultAccount = web3.eth.accounts[0];
+		var ApartmentRent = new web3.eth.Contract([
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "apartments",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "street",
+				"type": "string"
+			},
+			{
+				"internalType": "uint16",
+				"name": "streetNumber",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint16",
+				"name": "ApartmentNumber",
+				"type": "uint16"
+			},
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_apartmentId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint16",
+				"name": "_bidAmount",
+				"type": "uint16"
+			}
+		],
+		"name": "bid",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_apartmentId",
+				"type": "uint256"
+			}
+		],
+		"name": "cancelBidding",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_apartmentId",
+				"type": "uint256"
+			}
+		],
+		"name": "closeBidding",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_street",
+				"type": "string"
+			},
+			{
+				"internalType": "uint16",
+				"name": "_streetNumber",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint16",
+				"name": "_apartmentNumber",
+				"type": "uint16"
+			}
+		],
+		"name": "createApartment",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAllApartments",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "street",
+						"type": "string"
+					},
+					{
+						"internalType": "uint16",
+						"name": "streetNumber",
+						"type": "uint16"
+					},
+					{
+						"internalType": "uint16",
+						"name": "ApartmentNumber",
+						"type": "uint16"
+					},
+					{
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					}
+				],
+				"internalType": "struct ApartmentFactory.Apartment[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_owner",
+				"type": "address"
+			}
+		],
+		"name": "getApartmentsByOwner",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_renter",
+				"type": "address"
+			}
+		],
+		"name": "getApartmentsByRenter",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAvailableApartments",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "id",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "street",
+						"type": "string"
+					},
+					{
+						"internalType": "uint16",
+						"name": "streetNumber",
+						"type": "uint16"
+					},
+					{
+						"internalType": "uint16",
+						"name": "ApartmentNumber",
+						"type": "uint16"
+					},
+					{
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					}
+				],
+				"internalType": "struct ApartmentFactory.Apartment[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_owner",
+				"type": "address"
+			}
+		],
+		"name": "getCurrentRentersForOwner",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_apartmentId",
+				"type": "uint256"
+			}
+		],
+		"name": "getHighestBidder",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "renter",
+						"type": "address"
+					},
+					{
+						"internalType": "uint16",
+						"name": "bidAmount",
+						"type": "uint16"
+					}
+				],
+				"internalType": "struct ApartmentFactory.RenterBidding",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_apartmentId",
+				"type": "uint256"
+			}
+		],
+		"name": "getRentingHistory",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_renter",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_owner",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_apartmentId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_rentAmount",
+				"type": "uint256"
+			}
+		],
+		"name": "payRent",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "resetRenterBidding",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "renter",
+				"type": "address"
+			},
+			{
+				"internalType": "uint16",
+				"name": "bidAmount",
+				"type": "uint16"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_apartmentId",
+				"type": "uint256"
+			}
+		],
+		"name": "stopRentingApartment",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+], '0x17D203e99F74D71a03353a91D824e8F1B08443ae', // contract address
+		{
+			from: '0xb13622Bd3650d2e7f28cf8BA588A2b7b2594F4A7', // default from address
+			gasPrice: '20000' // default gas price in wei, 20 gwei in this case
+		});
+
+		// console.log(ApartmentRent);
+		// console.log(web3.eth.accounts);
+		ApartmentRent.methods.getAllApartments().call(function (error, result) {
+			if (!error) {
+				$("#apartment").html(result);
+			}
+			else{
+				console.error(error);
+				alert("Error occured while getting the apartment list!");
+			}
+		});
+
+		$("#createApartment").click(function () {
+			ApartmentRent.methods.createApartment($("#streetName").val(), 
+												  $("#streetNumber").val(),
+												  $("#apartmentNumber").val()).send({
+				from: '0xb13622Bd3650d2e7f28cf8BA588A2b7b2594F4A7',
+				gas: 1500000,
+				gasPrice: '300000000'
+			});
+			alert("Apartment created!");
+		});
+
+		$("#getOwnerApartments").click(function () {
+			ApartmentRent.methods.getApartmentsByOwner('0xb13622Bd3650d2e7f28cf8BA588A2b7b2594F4A7').call(function (error, result) {
+				if (!error) {
+					$("#ownerApartments").html('Apartment Ids for Owner: ' + result);
+					console.log(result);
+				}
+				else{
+					console.error(error);
+					alert("Error occured while getting the owner's apartment list!");
+				}
+			});
+		});
+
+		$("#getAvailableApartments").click(function () {
+			ApartmentRent.methods.getAvailableApartments().call(function (error, result) {
+				if (!error) {
+					$("#availableApartments").html('Available Apartments:' + result);
+					console.log(result);
+				}
+				else{
+					console.error(error);
+					alert("Error occured while getting the available apartment list!");
+				}
+			});
+		});
+
+		$("#getRenterApartments").click(function () {
+			ApartmentRent.methods.getApartmentsByRenter('0xb13622Bd3650d2e7f28cf8BA588A2b7b2594F4A7').call(function (error, result) {
+				if (!error) {
+					$("#renterApartments").html('Apartment Ids for Renter: ' + result);
+					console.log(result);
+				}
+				else{
+					console.error(error);
+					alert("Error occured while getting the renter's apartment list!");
+				}
+			});
+		});
+
+		$("#getCurrentRentersForOwner").click(function () {
+			ApartmentRent.methods.getCurrentRentersForOwner('0xb13622Bd3650d2e7f28cf8BA588A2b7b2594F4A7').call(function (error, result) {
+				if (!error) {
+					$("#rentersForOwner").html('Current Renters For Owner: ' + result);
+					console.log(result);
+				}
+				else{
+					console.error(error);
+					alert("Error occured while getting the current renters for owner!");
+				}
+			});
+		});
+
+		$("#getRentingHistory").click(function () {
+			ApartmentRent.methods.getRentingHistory($("#apartmentId").val()).call(function (error, result) {
+				if (!error) {
+					$("#rentingHistory").html('Renting history: ' + result);
+					console.log(result);
+				}
+				else{
+					console.error(error);
+					alert("Error occured while getting the renting history!");
+				}
+			});
+		});
+
+
+		$("#getHighestBidder").click(function () {
+			ApartmentRent.methods.getHighestBidder($("#apartmentId").val()).call(function (error, result) {
+				if (!error) {
+					$("#highestBidder").html('Highest bidder: ' + result.toString());
+					console.log(result);
+				}
+				else{
+					console.error(error);
+					alert("Error occured while getting the highest bidder!");
+				}
+			});
+		});
+
+		$("#bid").click(function () {
+			ApartmentRent.methods.bid($("#apartmentId").val(), 
+									   $("#bidAmount").val()).send({
+				from: '0xb13622Bd3650d2e7f28cf8BA588A2b7b2594F4A7',
+				gas: 3000000,
+				gasPrice: '300000000'
+			});
+			alert("Successfuly bidded!");
+		});
+
+		$("#cancelBidding").click(function () {
+			ApartmentRent.methods.cancelBidding($("#apartmentId").val()).send({
+				from: '0xb13622Bd3650d2e7f28cf8BA588A2b7b2594F4A7',
+				gas: 3000000,
+				gasPrice: '300000000'
+			});
+			alert("Bidding canceled!");
+		});
+
+		$("#closeBidding").click(function () {
+			ApartmentRent.methods.closeBidding($("#apartmentId").val()).send({
+				from: '0xb13622Bd3650d2e7f28cf8BA588A2b7b2594F4A7',
+				gas: 3000000,
+				gasPrice: '300000000'
+			});
+			alert("Bidding closed! Apartment is being rented!");
+		});
+
+		$("#stopRenting").click(function () {
+			console.log('Stop Renting')
+			ApartmentRent.methods.stopRentingApartment($("#apartmentId").val()).send({
+				from: '0xb13622Bd3650d2e7f28cf8BA588A2b7b2594F4A7',
+				gas: 3000000,
+				gasPrice: '300000000'
+			});
+			alert("Renting stopped");
+		});
+
+
+	</script>
+</html>
